@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Version>0.0.2</Version>
@@ -15,10 +15,11 @@
         <PackageVersion>0.0.2</PackageVersion>
         <FileVersion>0.0.2</FileVersion>
     </PropertyGroup>
-
+    
+    
     <ItemGroup>
-      <PackageReference Include="AiWrappers" Version="0.0.2" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="AiWrappers" Version="0.0.2" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>
