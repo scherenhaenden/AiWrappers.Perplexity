@@ -1,14 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Version>0.0.3</Version>
+        <Copyright>Eddie Krill</Copyright>
+        <PackageProjectUrl>https://rockatuestilo.com/</PackageProjectUrl>
+        <PackageLicenseUrl>https://rockatuestilo.com/</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/scherenhaenden/AiWrappers</RepositoryUrl>
+        <RepositoryType>github</RepositoryType>
+        <PackageTags>#AI #OpenAi #Perplexity #google</PackageTags>
+        <AssemblyVersion>0.0.3</AssemblyVersion>
+        <PackageVersion>0.0.3</PackageVersion>
+        <FileVersion>0.0.3</FileVersion>
     </PropertyGroup>
-
+    
+    
     <ItemGroup>
-      <PackageReference Include="AiWrappers" Version="0.0.1" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="AiWrappers" Version="0.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>
