@@ -2,24 +2,21 @@ namespace AiWrappers.Perplexity.Core.Models;
 
 public enum ModelType
 {
-    [StringValue("sonar-small-chat")]
-    SonarSmallChat,
+    [StringValue("llama-3-sonar-small-32k-chat")]
+    Llama3SonarSmall32kChat,
 
-    [StringValue("sonar-small-online")]
-    SonarSmallOnline,
+    [StringValue("llama-3-sonar-small-32k-online")]
+    Llama3SonarSmall32kOnline,
 
-    [StringValue("sonar-medium-chat")]
-    SonarMediumChat,
+    [StringValue("llama-3-sonar-large-32k-chat")]
+    Llama3SonarLarge32kChat,
 
-    [StringValue("sonar-medium-online")]
-    SonarMediumOnline,
+    [StringValue("llama-3-sonar-large-32k-online")]
+    Llama3SonarLarge32kOnline,
 
-    [StringValue("codelama-70b-instruct")]
-    CodelLama70bInstruct,
+    [StringValue("llama-3-8b-instruct")]
+    Llama38bInstruct,
 
-    [StringValue("mistral-7b-instruct")]
-    Mistral7bInstruct,
-
-    [StringValue("mistral-8x7b-instruct")]
-    Mistral8x7bInstruct
+    [StringValue("llama-3-70b-instruct")]
+    Llama370bInstruct
 }

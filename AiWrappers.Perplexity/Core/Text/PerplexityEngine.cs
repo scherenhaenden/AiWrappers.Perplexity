@@ -22,7 +22,7 @@ public class PerplexityEngine: IAiRequesterByPrompts
         var messages = new List<Message>();
         messages.Add(new Message { role = "system", content = "Be precise and concise." });
         messages.Add(new Message { role = "user", content = prompt });
-        perplexityRequestModel.model = ModelType.SonarMediumOnline;
+        perplexityRequestModel.model = ModelType.Llama3SonarLarge32kOnline;
         perplexityRequestModel.messages = messages;
         
         var settings = new JsonSerializerSettings();
