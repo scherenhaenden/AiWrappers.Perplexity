@@ -8,12 +8,20 @@ namespace AiWrappers.Perplexity.Core.Text;
 public class PerplexityEngine: IAiRequesterByPrompts
 {
     private readonly string _token;
+    private readonly ModelType _model;
 
     public PerplexityEngine(string token)
     {
         _token = token;
+        _model = ModelType.Llama3SonarLarge32kOnline;
     }
     
+    
+    public PerplexityEngine(string token, ModelType model)
+    {
+        _token = token;
+        _model = model;
+    }
     
     public async Task<string?> RunRequest(string prompt)
     {
@@ -22,7 +30,7 @@ public class PerplexityEngine: IAiRequesterByPrompts
         var messages = new List<Message>();
         messages.Add(new Message { role = "system", content = "Be precise and concise." });
         messages.Add(new Message { role = "user", content = prompt });
-        perplexityRequestModel.model = ModelType.Llama3SonarLarge32kOnline;
+        perplexityRequestModel.model = _model;
         perplexityRequestModel.messages = messages;
         
         var settings = new JsonSerializerSettings();
