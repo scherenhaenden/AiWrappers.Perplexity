@@ -8,12 +8,27 @@ namespace AiWrappers.Perplexity.Core.Text;
 public class PerplexityEngine: IAiRequesterByPrompts
 {
     private readonly string _token;
+    private readonly ModelType ?_model;
+    private readonly string? _modelString;
 
     public PerplexityEngine(string token)
     {
         _token = token;
+        _model = ModelType.Llama31SonarSmall128kOnline;
     }
     
+    
+    public PerplexityEngine(string token, ModelType model)
+    {
+        _token = token;
+        _model = model;
+    }
+    
+    public PerplexityEngine(string token, string model)
+    {
+        _token = token;
+        _modelString = model;
+    }
     
     public async Task<string?> RunRequest(string prompt)
     {
@@ -22,7 +37,16 @@ public class PerplexityEngine: IAiRequesterByPrompts
         var messages = new List<Message>();
         messages.Add(new Message { role = "system", content = "Be precise and concise." });
         messages.Add(new Message { role = "user", content = prompt });
-        perplexityRequestModel.model = ModelType.Llama3SonarLarge32kOnline;
+        
+        if(string.IsNullOrEmpty(_modelString))
+        {
+            perplexityRequestModel.model = _model;
+        }
+        else
+        {
+            perplexityRequestModel.ModelString = _modelString;
+        }
+        
         perplexityRequestModel.messages = messages;
         
         var settings = new JsonSerializerSettings();
@@ -30,22 +54,31 @@ public class PerplexityEngine: IAiRequesterByPrompts
         var serialized = JsonConvert.SerializeObject(perplexityRequestModel, settings);
         var token = _token;
 
-        var response = await FluentRestRequester.Create()
-            .BaseAddress("https://api.perplexity.ai/")
-            .Endpoint("chat/completions")
-            .WithMethod(HttpMethod.Post)
-            .WithHeader("accept", "application/json")
-            //.WithHeader("Content-Type", "application/json")
-            .WithContentType("application/json")
-            .WithHeader("authorization", token)
-            .WithPayloadModel(serialized)
-            .SendAsync<PerplexityResponseModel>();
-
-        if (response is not null)
+        try
         {
-            var results = response.choices.Select(x => x.message.content).ToList();
-            return string.Join(Environment.NewLine, results);
+            var response = await FluentRestRequester.Create()
+                .BaseAddress("https://api.perplexity.ai/")
+                .Endpoint("chat/completions")
+                .WithMethod(HttpMethod.Post)
+                .WithHeader("accept", "application/json")
+                //.WithHeader("Content-Type", "application/json")
+                .WithContentType("application/json")
+                .WithHeader("authorization", token)
+                .WithPayloadModel(serialized)
+                .SendAsync<PerplexityResponseModel>();
+
+            if (response is not null)
+            {
+                var results = response.choices.Select(x => x.message.content).ToList();
+                return string.Join(Environment.NewLine, results);
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        
 
         return "";
     }
