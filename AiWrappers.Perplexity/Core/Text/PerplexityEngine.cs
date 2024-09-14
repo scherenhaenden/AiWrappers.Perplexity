@@ -82,4 +82,63 @@ public class PerplexityEngine: IAiRequesterByPrompts
 
         return "";
     }
+
+    public async Task<string?> RunRequestWithResult(string prompt)
+    {
+        PerplexityRequestModel perplexityRequestModel = new PerplexityRequestModel();
+        var messages = new List<Message>();
+        messages.Add(new Message { role = "system", content = "Be precise and concise." });
+        messages.Add(new Message { role = "user", content = prompt });
+        
+        if(string.IsNullOrEmpty(_modelString))
+        {
+            perplexityRequestModel.model = _model;
+        }
+        else
+        {
+            perplexityRequestModel.ModelString = _modelString;
+        }
+        
+        perplexityRequestModel.messages = messages;
+        
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new StringValueEnumConverter());
+        var serialized = JsonConvert.SerializeObject(perplexityRequestModel, settings);
+        var token = _token;
+
+        try
+        {
+            var response = await FluentRestRequester.Create()
+                .BaseAddress("https://api.perplexity.ai/")
+                .Endpoint("chat/completions")
+                .WithMethod(HttpMethod.Post)
+                .WithHeader("accept", "application/json")
+                //.WithHeader("Content-Type", "application/json")
+                .WithContentType("application/json")
+                .WithHeader("authorization", token)
+                .WithPayloadModel(serialized)
+                .SendAsyncWithResult<PerplexityResponseModel>();
+            
+            
+            if(!response.IsSuccess)
+            {
+                return response.ErrorMessage;
+            }
+            
+
+            if (response is not null)
+            {
+                var results = response.Data.choices.Select(x => x.message.content).ToList();
+                return string.Join(Environment.NewLine, results);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        
+
+        return "";
+    }
 }

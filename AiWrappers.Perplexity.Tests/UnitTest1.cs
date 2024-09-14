@@ -17,6 +17,17 @@ public class Tests
         var aiRequesterByPrompts = new PerplexityEngine(tokenPerplexity, "llama-3.1-sonar-large-128k-online");
         var result = await aiRequesterByPrompts.RunRequest("What is the capital of France?");
         
-        Assert.NotNull(result);
+        Assert.That(result, Is.Not.Null);
+    }
+    
+    [Test]
+    public async Task Test2()
+    {
+        
+        var tokenPerplexity = "<TOKEN>";
+        var aiRequesterByPrompts = new PerplexityEngine(tokenPerplexity, "llama-3.1-sonar-large-128k-online");
+        var result = await aiRequesterByPrompts.RunRequestWithResult("What is the capital of France?");
+        
+        Assert.That(result, Is.Not.Null);
     }
 }
